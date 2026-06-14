@@ -162,6 +162,19 @@ Open your browser at `http://127.0.0.1:5000`
 
 ---
 
+## 👥 Group Members
+
+- Member 1 (@Shenalwijey)
+- Member 2 (@jananjaya2003)
+- 
+- 
+
+---
+
+## 📄 License
+
+This project is for academic purposes. All data collected from publicly available Sri Lankan car listing platforms.
+
 
 
 ## 📄 License
