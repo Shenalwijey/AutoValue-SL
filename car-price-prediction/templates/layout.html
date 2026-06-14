@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}AutoValue SL – Car Price Prediction{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <span class="brand-icon"><i class="bi bi-speedometer2"></i></span>
+      <span class="brand-text">AutoValue<span class="brand-sl">SL</span></span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.path == '/predict' %}active{% endif %}" href="/predict">Predict Price</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.path == '/performance' %}active{% endif %}" href="/performance">Model Stats</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.path == '/about' %}active{% endif %}" href="/about">About</a></li>
+        <li class="nav-item">
+          <a class="btn btn-predict" href="/predict">
+            <i class="bi bi-lightning-charge-fill me-1"></i>Get Estimate
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-md-4">
+        <div class="footer-brand mb-2">
+          <i class="bi bi-speedometer2 me-2"></i>AutoValue<span style="color:var(--accent)">SL</span>
+        </div>
+        <p class="footer-desc">Machine learning–powered car price prediction for Sri Lanka's used vehicle market.</p>
+      </div>
+      <div class="col-md-4">
+        <h6 class="footer-heading">Quick Links</h6>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/predict">Price Predictor</a></li>
+          <li><a href="/performance">Model Performance</a></li>
+          <li><a href="/about">About Project</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="footer-heading">Tech Stack</h6>
+        <div class="tech-badges">
+          <span class="tech-badge">Python</span>
+          <span class="tech-badge">Scikit-learn</span>
+          <span class="tech-badge">Flask</span>
+          <span class="tech-badge">Pandas</span>
+          <span class="tech-badge">Bootstrap 5</span>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider"/>
+    <p class="footer-copy">© 2026 AutoValue SL · AI Project · KIC · NIBM</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

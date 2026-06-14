@@ -1,0 +1,239 @@
+{% extends "layout.html" %}
+{% block title %}Predict Price – AutoValue SL{% endblock %}
+
+{% block content %}
+<section class="predict-hero">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <span class="section-label"><i class="bi bi-lightning-charge me-1"></i>Price Estimator</span>
+        <h1 class="page-title mt-2">What's Your Car Worth?</h1>
+        <p class="page-subtitle">Fill in the details below and our AI will analyse the Sri Lankan market to give you an accurate estimate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="predict-form-section">
+  <div class="container">
+    <form action="/predict" method="POST" id="predictForm" novalidate>
+
+      <!-- VEHICLE IDENTITY -->
+      <div class="form-card mb-4">
+        <div class="form-card-header">
+          <i class="bi bi-car-front-fill me-2"></i>Vehicle Identity
+        </div>
+        <div class="form-card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Brand <span class="req">*</span></label>
+              <select name="brand" class="form-select" id="brandSelect" required>
+                <option value="" disabled selected>Select Brand</option>
+                {% for b in brands %}
+                <option value="{{ b }}">{{ b }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Model <span class="req">*</span></label>
+              <input type="text" name="model" class="form-control" id="modelInput" placeholder="Select brand first" required list="modelOptions" />
+              <datalist id="modelOptions">
+                {% if models %}
+                  {% for m in models %}
+                  <option value="{{ m }}"></option>
+                  {% endfor %}
+                {% endif %}
+              </datalist>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Year of Manufacture <span class="req">*</span></label>
+              <input type="number" name="year" class="form-control"
+                     placeholder="e.g. 2018" min="1990" max="{{ current_year }}" required/>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Condition <span class="req">*</span></label>
+              <select name="condition" class="form-select" required>
+                {% for c in conditions %}
+                <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENGINE & PERFORMANCE -->
+      <div class="form-card mb-4">
+        <div class="form-card-header">
+          <i class="bi bi-gear-wide-connected me-2"></i>Engine &amp; Performance
+        </div>
+        <div class="form-card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Engine Capacity (cc) <span class="req">*</span></label>
+              <input type="number" name="engine_cc" class="form-control"
+                     placeholder="e.g. 1500" min="500" max="5000" required/>
+              <div class="form-hint">Common: 660cc, 1000cc, 1500cc, 2000cc</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Gear Type <span class="req">*</span></label>
+              <select name="gear" class="form-select" required>
+                {% for g in gear_types %}
+                <option value="{{ g }}">{{ g }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Fuel Type <span class="req">*</span></label>
+              <select name="fuel_type" class="form-select" required>
+                {% for f in fuel_types %}
+                <option value="{{ f }}">{{ f }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Mileage (KM) <span class="req">*</span></label>
+              <input type="number" name="mileage_km" class="form-control"
+                     placeholder="e.g. 80000" min="0" max="750000" required/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Leasing Status</label>
+              <select name="leasing" class="form-select">
+                {% for l in leasing_opts %}
+                <option value="{{ l }}">{{ l }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOCATION -->
+      <div class="form-card mb-4">
+        <div class="form-card-header">
+          <i class="bi bi-geo-alt-fill me-2"></i>Location
+        </div>
+        <div class="form-card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Town / District <span class="req">*</span></label>
+              <select name="town" class="form-select" required>
+                <option value="" disabled selected>Select Town</option>
+                {% for t in towns %}
+                <option value="{{ t }}">{{ t }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEATURES & AMENITIES -->
+      <div class="form-card mb-4">
+        <div class="form-card-header">
+          <i class="bi bi-stars me-2"></i>Features &amp; Amenities
+        </div>
+        <div class="form-card-body">
+          <p class="form-hint mb-3">Select the features your vehicle has available:</p>
+          <div class="row g-3">
+            {% set amenities = [
+              ("air_condition","air_condition","Air Conditioning","bi-snow"),
+              ("power_steering","power_steering","Power Steering","bi-steering"),
+              ("power_mirror","power_mirror","Power Mirrors","bi-eye"),
+              ("power_window","power_window","Power Windows","bi-window"),
+            ] %}
+            {% for field, name, label, icon in amenities %}
+            <div class="col-md-3 col-sm-6">
+              <div class="amenity-toggle" id="toggle-{{ field }}">
+                <input type="hidden" name="{{ name }}" value="Not Available" id="hidden-{{ field }}"/>
+                <div class="amenity-content">
+                  <i class="bi {{ icon }} amenity-icon"></i>
+                  <span class="amenity-label">{{ label }}</span>
+                  <div class="amenity-switch">
+                    <span class="amenity-status">Not Available</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="text-center mt-4 mb-5">
+        <button type="submit" class="btn btn-predict-submit" id="submitBtn">
+          <span class="btn-text"><i class="bi bi-lightning-charge-fill me-2"></i>Predict My Car's Price</span>
+          <span class="btn-loading d-none">
+            <span class="spinner-border spinner-border-sm me-2"></span>Analysing Market…
+          </span>
+        </button>
+        <div class="submit-note mt-3"><i class="bi bi-shield-lock me-1"></i>Your data is never stored or shared</div>
+      </div>
+
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const brandModelMap = {{ brand_model_map|tojson }};
+
+function updateModelOptions() {
+  const brandSelect = document.getElementById('brandSelect');
+  const modelInput = document.getElementById('modelInput');
+  const modelOptions = document.getElementById('modelOptions');
+  if (!brandSelect || !modelInput || !modelOptions) return;
+
+  const selectedBrand = (brandSelect.value || '').trim().toUpperCase();
+  const models = brandModelMap[selectedBrand] || [];
+
+  modelOptions.innerHTML = '';
+  models.forEach(model => {
+    const option = document.createElement('option');
+    option.value = model;
+    modelOptions.appendChild(option);
+  });
+
+  modelInput.value = '';
+  modelInput.placeholder = models.length ? 'e.g. ' + models[0] : 'No models found for selected brand';
+  modelInput.disabled = !selectedBrand;
+}
+
+const brandSelect = document.getElementById('brandSelect');
+if (brandSelect) {
+  brandSelect.addEventListener('change', updateModelOptions);
+  updateModelOptions();
+}
+
+// Amenity toggle buttons
+document.querySelectorAll('.amenity-toggle').forEach(toggle => {
+  let active = false;
+  const field  = toggle.id.replace('toggle-','');
+  const hidden = document.getElementById('hidden-' + field);
+  const status = toggle.querySelector('.amenity-status');
+
+  toggle.addEventListener('click', () => {
+    active = !active;
+    toggle.classList.toggle('active', active);
+    hidden.value = active ? 'Available' : 'Not Available';
+    status.textContent = active ? 'Available' : 'Not Available';
+  });
+
+  // Default: Available (most cars have these)
+  active = true;
+  toggle.classList.add('active');
+  hidden.value = 'Available';
+  status.textContent = 'Available';
+});
+
+// Form submit loading state
+document.getElementById('predictForm').addEventListener('submit', function(e) {
+  const btn = document.getElementById('submitBtn');
+  btn.querySelector('.btn-text').classList.add('d-none');
+  btn.querySelector('.btn-loading').classList.remove('d-none');
+  btn.disabled = true;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block title %}About – AutoValue SL{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+  <div class="container text-center">
+    <span class="section-label">AI Project</span>
+    <h1 class="page-title mt-2">About This Project</h1>
+    <p class="page-subtitle">A machine learning system for predicting used car prices in Sri Lanka, developed as a AI academic project.</p>
+  </div>
+</section>
+
+<section class="about-content">
+  <div class="container">
+    <div class="row gy-5">
+
+      <!-- Project Overview -->
+      <div class="col-lg-8 mx-auto">
+        <div class="about-section-card">
+          <h3><i class="bi bi-bookmark-star me-2"></i>Project Overview</h3>
+          <p>AutoValue SL is a complete end-to-end machine learning project that predicts used car prices in Sri Lanka using real-world data scraped from online vehicle marketplaces. The system ingests 9,788 car listings, applies rigorous data preprocessing and feature engineering, trains and compares 11 regression models, and deploys the best model via a modern Flask web application.</p>
+          <p>The project demonstrates mastery of the full data science lifecycle — from raw data to production deployment — with special emphasis on detecting and mitigating model overfitting and underfitting.</p>
+        </div>
+
+        <!-- Dataset Details -->
+        <div class="about-section-card mt-4">
+          <h3><i class="bi bi-database me-2"></i>Dataset Details</h3>
+          <div class="row g-3">
+            {% set ds_info = [
+              ("Records","9,788 vehicle listings"),
+              ("Features","16 original → 22 engineered"),
+              ("Target","Price in LKR Lakhs"),
+              ("Source","Sri Lankan vehicle market 2024–2025"),
+              ("Brands","50 unique makes"),
+              ("Coverage","Island-wide (27 towns/districts)"),
+              ("Fuel Types","Petrol, Diesel, Hybrid, Electric"),
+              ("Year Range","1990 – 2024"),
+            ] %}
+            {% for label, val in ds_info %}
+            <div class="col-sm-6">
+              <div class="info-row">
+                <span class="info-label">{{ label }}</span>
+                <span class="info-val">{{ val }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="about-section-card mt-4">
+          <h3><i class="bi bi-code-square me-2"></i>Technology Stack</h3>
+          <div class="tech-stack-grid">
+            {% set stack = [
+              ("bi-filetype-py","Python 3.11","Core language"),
+              ("bi-table","Pandas / NumPy","Data manipulation"),
+              ("bi-robot","Scikit-learn","ML models & pipelines"),
+              ("bi-graph-up","Matplotlib / Seaborn","Visualisation"),
+              ("bi-server","Flask","Web backend"),
+              ("bi-bootstrap","Bootstrap 5","Frontend UI"),
+              ("bi-hdd","Joblib","Model persistence"),
+              ("bi-clipboard-data","Plotly","Interactive charts"),
+            ] %}
+            {% for icon, name, role in stack %}
+            <div class="tech-item">
+              <i class="bi {{ icon }}"></i>
+              <strong>{{ name }}</strong>
+              <span>{{ role }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="about-section-card mt-4">
+          <h3><i class="bi bi-diagram-3 me-2"></i>Methodology Summary</h3>
+          <div class="methodology-steps">
+            {% set steps = [
+              ("Data Collection","Real-world Sri Lankan car listing data (9,788 records)"),
+              ("Preprocessing","Outlier removal, column standardisation, type casting"),
+              ("Feature Engineering","22 features derived: car_age, mileage_per_year, amenity_score, luxury flag, log transforms"),
+              ("Model Training","11 models trained with 5-fold cross-validation and 80/20 train-test split"),
+              ("Overfitting Control","Regularisation (Ridge/Lasso/ElasticNet), tree depth limits, RandomizedSearchCV tuning"),
+              ("Model Selection","Best model chosen by adjusted test R² (penalises overfitters)"),
+              ("Deployment","Flask web app with persistent joblib pipeline for real-time inference"),
+            ] %}
+            {% for title, desc in steps %}
+            <div class="meth-step">
+              <div class="meth-num">{{ loop.index }}</div>
+              <div class="meth-text">
+                <strong>{{ title }}</strong>
+                <p>{{ desc }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Future Work -->
+        <div class="about-section-card mt-4">
+          <h3><i class="bi bi-arrow-up-right-circle me-2"></i>Future Improvements</h3>
+          <ul class="future-list">
+            <li>Integrate XGBoost, LightGBM, and CatBoost for potential R² improvements of 2–5%</li>
+            <li>Add image-based valuation using CNN on car photos</li>
+            <li>Implement real-time data scraping to keep training data current</li>
+            <li>Build a comparison tool (multiple cars side-by-side)</li>
+            <li>Extend to motorcycle and three-wheeler predictions</li>
+            <li>Add explainability (SHAP values) to show which features drove each prediction</li>
+            <li>Deploy on cloud (AWS/GCP/Heroku) for public access</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+{% block title %}Prediction Result – AutoValue SL{% endblock %}
+
+{% block content %}
+
+{% if error %}
+<!-- ERROR STATE -->
+<section class="result-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 text-center">
+        <div class="result-card error-card">
+          <div class="result-icon error-icon">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+          </div>
+          <h2>Prediction Unavailable</h2>
+          <p class="error-msg">{{ error }}</p>
+          <p class="error-hint">Please ensure the model has been trained by running <code>python -m src.train_models</code></p>
+          <a href="/predict" class="btn btn-predict mt-3">
+            <i class="bi bi-arrow-left me-2"></i>Try Again
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% else %}
+<!-- SUCCESS STATE -->
+<section class="result-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        <!-- Main Price Card -->
+        <div class="result-price-card animate-fade-up">
+          <div class="result-badge">
+            <i class="bi bi-check-circle-fill me-2"></i>AI Prediction Complete
+          </div>
+          <h2 class="result-car-label">
+            {{ input_data.brand }} · {{ input_data.year }} · {{ input_data.fuel_type }}
+          </h2>
+          <div class="result-price-display">
+            <span class="result-currency">LKR</span>
+            <span class="result-amount" id="animatedPrice" data-target="{{ price }}">0</span>
+            <span class="result-unit">Lakhs</span>
+          </div>
+          <p class="result-desc">Estimated market value based on 9,788 Sri Lankan vehicle listings</p>
+
+          <!-- Price Range Gauge -->
+          <div class="price-range-box mt-4">
+            <div class="price-range-label">Market Price Range (±10%)</div>
+            <div class="price-range-track">
+              <div class="price-range-low">LKR {{ low }}L</div>
+              <div class="price-range-bar-wrap">
+                <div class="price-range-bar-bg">
+                  <div class="price-range-bar-fill"></div>
+                  <div class="price-range-needle" title="Predicted: LKR {{ price }}L"></div>
+                </div>
+              </div>
+              <div class="price-range-high">LKR {{ high }}L</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Summary -->
+        <div class="result-summary-card animate-fade-up delay-1 mt-4">
+          <h5 class="summary-title"><i class="bi bi-list-check me-2"></i>Vehicle Details Analysed</h5>
+          <div class="row gy-3">
+            {% set details = [
+              ("bi-award","Brand", input_data.brand),
+              ("bi-car-front-fill","Model", input_data.model),
+              ("bi-calendar3","Year", input_data.year),
+              ("bi-gear","Gear", input_data.gear),
+              ("bi-fuel-pump","Fuel", input_data.fuel_type),
+              ("bi-speedometer","Mileage", input_data.mileage_km ~ " KM"),
+              ("bi-cpu","Engine", input_data.engine_cc ~ " cc"),
+              ("bi-geo-alt","Town", input_data.town),
+              ("bi-tag","Condition", input_data.condition),
+            ] %}
+            {% for icon, label, val in details %}
+            <div class="col-6 col-md-3">
+              <div class="detail-chip">
+                <i class="bi {{ icon }} chip-icon"></i>
+                <span class="chip-label">{{ label }}</span>
+                <span class="chip-val">{{ val }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="result-actions mt-4 text-center animate-fade-up delay-2">
+          <a href="/predict" class="btn btn-result-primary me-3">
+            <i class="bi bi-plus-circle me-2"></i>Predict Another Car
+          </a>
+          <a href="/performance" class="btn btn-result-secondary">
+            <i class="bi bi-bar-chart me-2"></i>See Model Accuracy
+          </a>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer-box mt-4 animate-fade-up delay-3">
+          <i class="bi bi-info-circle me-2"></i>
+          <strong>Disclaimer:</strong> This estimate is based on a machine learning model trained on historical data.
+          Actual market prices may vary due to vehicle condition, negotiation, and market fluctuations.
+          Always conduct a physical inspection before buying or selling.
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Animated price counter
+function animateCounter(el, target, duration = 1200) {
+  const start = performance.now();
+  const update = (now) => {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = (target * ease).toFixed(1);
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target.toFixed(2);
+  };
+  requestAnimationFrame(update);
+}
+const priceEl = document.getElementById('animatedPrice');
+if (priceEl) {
+  const target = parseFloat(priceEl.dataset.target);
+  animateCounter(priceEl, target);
+}
+</script>
+{% endblock %}

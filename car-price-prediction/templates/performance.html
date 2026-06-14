@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block title %}Model Performance – AutoValue SL{% endblock %}
+
+{% block content %}
+
+<section class="perf-hero">
+  <div class="container text-center">
+    <span class="section-label"><i class="bi bi-bar-chart-line me-1"></i>Model Evaluation</span>
+    <h1 class="page-title mt-2">Model Performance Dashboard</h1>
+    <p class="page-subtitle">Comparison of 11 regression algorithms trained on Sri Lankan car price data.</p>
+  </div>
+</section>
+
+<section class="perf-content">
+  <div class="container">
+
+    <!-- Charts row -->
+    <div class="row gy-4 mb-5">
+      {% set charts = [
+        ("target_distribution.png","Price Distribution"),
+        ("model_comparison.png","Model Comparison – R²"),
+        ("actual_vs_predicted.png","Actual vs Predicted"),
+        ("feature_importance.png","Feature Importance"),
+        ("overfitting_analysis.png","Overfitting Analysis"),
+        ("learning_curve.png","Learning Curve"),
+        ("residual_distribution.png","Residual Distribution"),
+        ("correlation_heatmap.png","Correlation Heatmap"),
+      ] %}
+      {% for img, title in charts %}
+      <div class="col-md-6">
+        <div class="chart-card">
+          <div class="chart-card-title">{{ title }}</div>
+          <img src="{{ url_for('static', filename='images/' ~ img) }}"
+               alt="{{ title }}"
+               class="chart-img"
+               onerror="this.parentElement.querySelector('.chart-placeholder').style.display='flex';this.style.display='none'"/>
+          <div class="chart-placeholder" style="display:none">
+            <i class="bi bi-image me-2"></i>Run training to generate chart
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Metrics table -->
+    {% if metrics %}
+    <h3 class="table-section-title"><i class="bi bi-table me-2"></i>Detailed Metrics Comparison</h3>
+    <div class="table-responsive mt-3">
+      <table class="table metrics-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Train R²</th>
+            <th>Test R²</th>
+            <th>CV R²</th>
+            <th>Test MAE</th>
+            <th>Test RMSE</th>
+            <th>MAPE %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in metrics | sort(attribute='test_r2', reverse=True) %}
+          <tr class="{% if loop.first %}best-row{% endif %}">
+            <td class="model-name-cell">
+              {% if loop.first %}<i class="bi bi-trophy-fill text-warning me-1"></i>{% endif %}
+              {{ m.model_name }}
+            </td>
+            <td>{{ "%.4f"|format(m.train_r2) }}</td>
+            <td class="test-r2-cell">{{ "%.4f"|format(m.test_r2) }}</td>
+            <td>{{ "%.4f"|format(m.cv_r2_mean) }} <small>±{{ "%.3f"|format(m.cv_r2_std) }}</small></td>
+            <td>{{ "%.2f"|format(m.test_mae) }}</td>
+            <td>{{ "%.2f"|format(m.test_rmse) }}</td>
+            <td>{{ "%.1f"|format(m.test_mape) }}%</td>
+            <td>
+              {% set gap = m.train_r2 - m.test_r2 %}
+              {% if gap > 0.15 %}
+                <span class="status-badge overfit">Overfit</span>
+              {% elif m.train_r2 < 0.7 %}
+                <span class="status-badge underfit">Underfit</span>
+              {% else %}
+                <span class="status-badge goodfit">Good Fit</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="no-data-box">
+      <i class="bi bi-hourglass-split me-2"></i>
+      No model metrics found. Please run <code>python -m src.train_models</code> to train the models first.
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

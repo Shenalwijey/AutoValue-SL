@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+{% block title %}AutoValue SL – AI Car Price Predictor{% endblock %}
+
+{% block content %}
+
+<!-- HERO ──────────────────────────────────────────── -->
+<section class="hero-section">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center min-vh-85">
+      <div class="col-lg-6 hero-content">
+        <div class="hero-badge animate-fade-up delay-0">
+          <i class="bi bi-robot me-2"></i>Powered by Machine Learning
+        </div>
+        <h1 class="hero-title animate-fade-up delay-1">
+          Know Your Car's<br/>
+          <span class="hero-gradient-text">True Market Value</span>
+        </h1>
+        <p class="hero-subtitle animate-fade-up delay-2">
+          AutoValue SL uses a trained ensemble model on <strong>9,788 real Sri Lankan
+          vehicle listings</strong> to deliver accurate price predictions in seconds.
+        </p>
+        <div class="hero-actions animate-fade-up delay-3">
+          <a href="/predict" class="btn btn-hero-primary">
+            <i class="bi bi-lightning-charge-fill me-2"></i>Predict Now — Free
+          </a>
+          <a href="/performance" class="btn btn-hero-secondary">
+            <i class="bi bi-bar-chart-line me-2"></i>View Model Stats
+          </a>
+        </div>
+        <div class="hero-stats animate-fade-up delay-4">
+          <div class="h-stat"><span class="h-stat-num">9,788</span><span class="h-stat-label">Listings Trained</span></div>
+          <div class="h-stat-divider"></div>
+          <div class="h-stat"><span class="h-stat-num">11</span><span class="h-stat-label">ML Models Tested</span></div>
+          <div class="h-stat-divider"></div>
+          <div class="h-stat"><span class="h-stat-num">50+</span><span class="h-stat-label">Car Brands</span></div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-none d-lg-flex hero-visual justify-content-center animate-fade-up delay-2">
+        <div class="car-card-mock">
+          <div class="mock-header">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <span class="mock-title">Price Analysis</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-car-label">Toyota Corolla · 2019 · Auto</div>
+            <div class="mock-price-display">
+              <span class="mock-currency">LKR</span>
+              <span class="mock-amount">47.5</span>
+              <span class="mock-unit">Lakhs</span>
+            </div>
+            <div class="mock-range">
+              <div class="mock-range-bar">
+                <div class="mock-range-fill"></div>
+                <div class="mock-range-thumb"></div>
+              </div>
+              <div class="mock-range-labels">
+                <span>LKR 42.7L</span><span>LKR 52.2L</span>
+              </div>
+            </div>
+            <div class="mock-features">
+              <span class="mock-feat">✓ Petrol</span>
+              <span class="mock-feat">✓ 1500cc</span>
+              <span class="mock-feat">✓ 65,000 KM</span>
+              <span class="mock-feat">✓ AC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS ──────────────────────────────────── -->
+<section class="section-how">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-label">Simple Process</span>
+      <h2 class="section-title">How It Works</h2>
+    </div>
+    <div class="row gy-4 mt-3">
+      <div class="col-md-4">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-icon"><i class="bi bi-sliders2"></i></div>
+          <h4>Enter Car Details</h4>
+          <p>Input your car's brand, year, mileage, engine size, fuel type, and features using our smart form.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="step-card step-card-accent">
+          <div class="step-number">02</div>
+          <div class="step-icon"><i class="bi bi-cpu"></i></div>
+          <h4>AI Analyses the Market</h4>
+          <p>Our ensemble ML model processes 22 engineered features trained on thousands of real Sri Lankan listings.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-icon"><i class="bi bi-graph-up-arrow"></i></div>
+          <h4>Get Your Estimate</h4>
+          <p>Receive an instant price estimate with a confidence range based on current market data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES ──────────────────────────────────────── -->
+<section class="section-features">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-label">Why Choose AutoValue SL</span>
+      <h2 class="section-title">Built for Accuracy</h2>
+    </div>
+    <div class="row gy-4 mt-3">
+      {% set features = [
+        ("bi-database-check","Real Data","Trained on 9,788 verified Sri Lankan vehicle listings from 2024–2025."),
+        ("bi-layers","Ensemble ML","Compares 11 regression models and selects the best generalising model."),
+        ("bi-shield-check","Overfitting Controlled","Regularisation, cross-validation and tuning ensure robust predictions."),
+        ("bi-lightning","Instant Results","Predictions delivered in milliseconds via a trained, saved pipeline."),
+        ("bi-tags","50+ Brands","Covers Toyota, Suzuki, Honda, BMW, Mercedes-Benz and more."),
+        ("bi-phone","Fully Responsive","Works seamlessly on mobile, tablet, and desktop devices."),
+      ] %}
+      {% for icon, title, desc in features %}
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="bi {{ icon }}"></i></div>
+          <h5>{{ title }}</h5>
+          <p>{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA ──────────────────────────────────────────── -->
+<section class="section-cta">
+  <div class="container text-center">
+    <h2 class="cta-title">Ready to Find Out What Your Car Is Worth?</h2>
+    <p class="cta-sub">It takes less than 60 seconds. No registration required.</p>
+    <a href="/predict" class="btn btn-cta">
+      <i class="bi bi-arrow-right-circle-fill me-2"></i>Start Prediction
+    </a>
+  </div>
+</section>
+
+{% endblock %}
