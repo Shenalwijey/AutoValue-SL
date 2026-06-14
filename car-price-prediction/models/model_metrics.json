@@ -1,0 +1,17 @@
+[
+  {
+    "model_name": "Gradient Boosting",
+    "train_r2": 0.9247,
+    "test_r2": 0.8758,
+    "cv_r2_mean": 0.8758,
+    "cv_r2_std": 0.0,
+    "train_mae": 5.8634,
+    "test_mae": 7.3755,
+    "train_rmse": 9.1663,
+    "test_rmse": 12.6958,
+    "test_mape": 15.539,
+    "fit_status": "\u2705  GOOD FIT     \u2013 gap=0.05; generalises well",
+    "final_test_r2": 0.8758,
+    "adjusted_score": 0.8758
+  }
+]

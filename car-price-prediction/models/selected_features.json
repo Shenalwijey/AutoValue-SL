@@ -1,0 +1,55 @@
+{
+  "numeric": [
+    "year",
+    "engine_cc",
+    "mileage_km",
+    "car_age",
+    "mileage_per_year",
+    "amenity_score",
+    "log_mileage",
+    "log_engine_cc",
+    "log_car_age",
+    "listing_year",
+    "listing_month"
+  ],
+  "binary": [
+    "has_ac",
+    "has_ps",
+    "has_pm",
+    "has_pw",
+    "is_leasing",
+    "is_new",
+    "is_auto",
+    "is_luxury"
+  ],
+  "categorical": [
+    "brand",
+    "fuel_type",
+    "town"
+  ],
+  "all_features": [
+    "year",
+    "engine_cc",
+    "mileage_km",
+    "car_age",
+    "mileage_per_year",
+    "amenity_score",
+    "log_mileage",
+    "log_engine_cc",
+    "log_car_age",
+    "listing_year",
+    "listing_month",
+    "has_ac",
+    "has_ps",
+    "has_pm",
+    "has_pw",
+    "is_leasing",
+    "is_new",
+    "is_auto",
+    "is_luxury",
+    "brand",
+    "fuel_type",
+    "town"
+  ],
+  "target": "price"
+}
