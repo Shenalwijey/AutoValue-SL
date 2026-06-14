@@ -164,8 +164,8 @@ Open your browser at `http://127.0.0.1:5000`
 
 ## 👥 Group Members
 
-- Member 1 (@Shenalwijey)
-- Member 2 (@jananjaya2003)
+- shenal ( @Shenalwijey )
+- Member 2 ( @jananjaya2003 )
 - 
 - 
 
