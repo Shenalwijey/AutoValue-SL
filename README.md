@@ -164,12 +164,10 @@ Open your browser at `http://127.0.0.1:5000`
 
 ## 👥 Group Members
 
-| Names | 
-|------|------|
-| W.P.C Shenal — [@Shenalwijey](https://github.com/Shenalwijey) | 
-| Tharindu — [@jananjaya2003](https://github.com/jananjaya2003) | 
-| Malshi | 
-| Hansika | 
+| W.P.C Shenal — [@Shenalwijey](https://github.com/Shenalwijey)  
+| Tharindu — [@jananjaya2003](https://github.com/jananjaya2003)  
+| Malshi 
+| Hansika  
 ---
 
 ## 📄 License
