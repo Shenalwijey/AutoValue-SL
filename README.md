@@ -166,7 +166,7 @@ Open your browser at `http://127.0.0.1:5000`
 
  Shenal — [@Shenalwijey](https://github.com/Shenalwijey)  
  Tharindu — [@jananjaya2003](https://github.com/jananjaya2003)  
- Malshi _
+ Malshi <br>
  Hansika  
 ---
 
