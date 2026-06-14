@@ -164,7 +164,7 @@ Open your browser at `http://127.0.0.1:5000`
 
 ## 👥 Group Members
 
- Shenal — [@Shenalwijey](https://github.com/Shenalwijey)  
+ Shenal - [@Shenalwijey](https://github.com/Shenalwijey)  
  Tharindu — [@jananjaya2003](https://github.com/jananjaya2003)  
  Malshi <br>
  Hansika  
