@@ -166,7 +166,7 @@ Open your browser at `http://127.0.0.1:5000`
 
  Shenal — [@Shenalwijey](https://github.com/Shenalwijey)  
  Tharindu — [@jananjaya2003](https://github.com/jananjaya2003)  
- Malshi 
+ Malshi |
  Hansika  
 ---
 
@@ -176,6 +176,4 @@ This project is for academic purposes. All data collected from publicly availabl
 
 
 
-## 📄 License
 
-This project is for academic purposes. All data collected from publicly available Sri Lankan car listing platforms.
